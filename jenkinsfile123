@@ -4,7 +4,7 @@ pipeline
     stages {
         stage('cd') {
             steps {
-                git 'https://github.com/intelliqittrainings/maven.git'
+                git 'https://github.com/imranbasha0321/jenkinsrepo.git'
             }
         }
         stage('cb') {
