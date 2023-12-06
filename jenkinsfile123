@@ -1,0 +1,33 @@
+pipeline
+{
+    agent any
+    stages {
+        stage('cd') {
+            steps {
+                git 'https://github.com/intelliqittrainings/maven.git'
+            }
+        }
+        stage('cb') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+        stage('cdp') {
+            steps {
+                sh 'scp /var/lib/jenkins/workspace/dcp/webapp/target/webapp.war ubuntu@172.31.43.28:/var/lib/tomcat9/webapps/mytestapp.war'
+            }
+        }
+        stage(ct) {
+            steps {
+                git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
+                sh 'java -jar /var/lib/jenkins/workspace/dcp/testing.jar'
+                
+            }
+        }
+        stage(cdel) {
+            steps {
+                 sh 'scp /var/lib/jenkins/workspace/dcp/webapp/target/webapp.war ubuntu@172.31.34.6:/var/lib/tomcat9/webapps/prodapp.war'
+            }
+        }
+    }
+}
